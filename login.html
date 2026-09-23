@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login — TTU IN FOCUS | Takoradi Technical University</title>
+  <meta name="description" content="Official administrative login portal for TTU in Focus Campus Event Hub.">
+  <meta name="theme-color" content="#081830">
+
+  <!-- Immediate Session Check (Redirect if already authenticated) -->
+  <script>
+    (function () {
+      try {
+        const session = sessionStorage.getItem('ttu_admin_session') || localStorage.getItem('ttu_admin_session');
+        if (session) {
+          window.location.replace('admin.html');
+        }
+      } catch (e) { }
+    })();
+  </script>
+
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <style>
+    :root {
+      --navy-deep: #081830;
+      --navy: #0F274A;
+      --navy-light: #1A3B6B;
+      --gold: #D4AF37;
+      --gold-hover: #C29D26;
+      --gold-soft: #F9F2D6;
+      --gold-glow: rgba(212, 175, 55, 0.25);
+      --gold-gradient: linear-gradient(135deg, #F3DA7A 0%, #D4AF37 50%, #AA820A 100%);
+
+      --bg: #F4F6FA;
+      --surface: #FFFFFF;
+      --surface-alt: #EDF2F7;
+      --border: #E2E8F0;
+      --text: #111827;
+      --text-muted: #64748B;
+
+      --danger: #EF4444;
+      --danger-bg: #FEF2F2;
+      --success: #10B981;
+      --success-bg: #ECFDF5;
+
+      --radius-s: 8px;
+      --radius-m: 14px;
+      --radius-l: 20px;
+      --radius-full: 9999px;
+
+      --shadow-card: 0 20px 45px -10px rgba(8, 24, 48, 0.15), 0 4px 12px rgba(8, 24, 48, 0.05);
+
+      --font-display: 'Fraunces', Georgia, serif;
+      --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'IBM Plex Mono', monospace;
+
+      --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    [data-theme="dark"] {
+      --navy-deep: #050E1C;
+      --navy: #0A162B;
+      --navy-light: #132442;
+      --bg: #070F1E;
+      --surface: #0E1A30;
+      --surface-alt: #132442;
+      --border: #1E3256;
+      --text: #F1F5F9;
+      --text-muted: #94A3B8;
+
+      --gold-soft: #2A2A1A;
+      --gold-glow: rgba(212, 175, 55, 0.35);
+
+      --shadow-card: 0 25px 60px -10px rgba(0, 0, 0, 0.6);
+      --danger-bg: rgba(239, 68, 68, 0.15);
+      --success-bg: rgba(16, 185, 129, 0.15);
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+      position: relative;
+      overflow-x: hidden;
+      transition: background-color var(--transition), color var(--transition);
+    }
+
+    /* Ambient Background Glow */
+    .bg-decoration {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(circle at 15% 20%, rgba(212, 175, 55, 0.08) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(15, 39, 74, 0.15) 0%, transparent 50%);
+      z-index: 0;
+    }
+
+    [data-theme="dark"] .bg-decoration {
+      background:
+        radial-gradient(circle at 15% 20%, rgba(212, 175, 55, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(19, 36, 66, 0.4) 0%, transparent 50%);
+    }
+
+    /* Top utility bar */
+    .login-top-bar {
+      position: absolute;
+      top: 20px;
+      left: 24px;
+      right: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 10;
+    }
+
+    .back-home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      text-decoration: none;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      transition: all var(--transition);
+    }
+
+    .back-home-link:hover {
+      color: var(--gold);
+      border-color: var(--gold);
+      transform: translateX(-2px);
+    }
+
+    .theme-toggle-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .theme-toggle-btn:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+      transform: scale(1.05);
+    }
+
+    /* Login Card Container */
+    .login-container {
+      width: 100%;
+      max-width: 440px;
+      position: relative;
+      z-index: 5;
+      margin: auto 0;
+    }
+
+    .login-card {
+      background: var(--surface);
+      border-radius: var(--radius-l);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-card);
+      overflow: hidden;
+      padding: 40px 36px;
+      position: relative;
+    }
+
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gold-gradient);
+    }
+
+    /* Brand Header */
+    .login-brand {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .brand-crest-wrap {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: var(--navy-deep);
+      border: 2px solid var(--gold);
+      margin-bottom: 14px;
+      box-shadow: 0 4px 16px rgba(212, 175, 55, 0.25);
+    }
+
+    .login-brand h1 {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.2;
+    }
+
+    .login-subtitle {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      margin-top: 4px;
+      font-weight: 600;
+    }
+
+    .login-desc {
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      margin-top: 6px;
+    }
+
+    /* Form Elements */
+    .form-group {
+      margin-bottom: 18px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+      color: var(--text);
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap input {
+      width: 100%;
+      padding: 10px 14px 10px 38px;
+      border-radius: var(--radius-s);
+      border: 1.5px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--text);
+      font-size: 0.9rem;
+      transition: all var(--transition);
+    }
+
+    .input-wrap input:focus {
+      outline: none;
+      border-color: var(--gold);
+      background: var(--surface);
+      box-shadow: 0 0 0 3px var(--gold-glow);
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      pointer-events: none;
+      display: flex;
+    }
+
+    .toggle-pass-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      padding: 4px;
+    }
+
+    .toggle-pass-btn:hover {
+      color: var(--text);
+    }
+
+    .form-meta-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 22px;
+      font-size: 0.82rem;
+    }
+
+    .remember-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+
+    .remember-wrap input {
+      accent-color: var(--gold);
+      width: 16px;
+      height: 16px;
+    }
+
+    /* Submit Button */
+    .btn-submit {
+      width: 100%;
+      padding: 12px;
+      border-radius: var(--radius-s);
+      background: var(--gold-gradient);
+      color: var(--navy-deep);
+      font-weight: 700;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(212, 175, 55, 0.3);
+      transition: all var(--transition);
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 18px rgba(212, 175, 55, 0.45);
+    }
+
+    .btn-submit:active {
+      transform: translateY(0);
+    }
+
+    /* Demo Helper Box */
+    .demo-credentials-box {
+      margin-top: 24px;
+      padding: 14px;
+      background: var(--surface-alt);
+      border-radius: var(--radius-s);
+      border: 1px dashed var(--border);
+      text-align: center;
+    }
+
+    .demo-title {
+      font-size: 0.76rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .demo-creds {
+      font-size: 0.8rem;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .demo-creds code {
+      font-family: var(--font-mono);
+      background: rgba(212, 175, 55, 0.15);
+      color: var(--gold);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .btn-fill-demo {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 5px 12px;
+      border-radius: var(--radius-full);
+      background: var(--surface);
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .btn-fill-demo:hover {
+      background: var(--gold);
+      color: var(--navy-deep);
+    }
+
+    /* Error / Alert Banner */
+    .login-alert {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: var(--radius-s);
+      font-size: 0.85rem;
+      margin-bottom: 18px;
+      animation: shake 0.3s ease;
+    }
+
+    .login-alert.danger {
+      display: flex;
+      background: var(--danger-bg);
+      border: 1px solid rgba(239, 68, 68, 0.4);
+      color: var(--danger);
+    }
+
+    .login-alert.success {
+      display: flex;
+      background: var(--success-bg);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      color: var(--success);
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      20%,
+      60% {
+        transform: translateX(-6px);
+      }
+
+      40%,
+      80% {
+        transform: translateX(6px);
+      }
+    }
+
+    /* Footer Security Seal */
+    .login-footer {
+      text-align: center;
+      margin-top: 24px;
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    .login-footer p {
+      margin-bottom: 4px;
+    }
+
+    /* Loading Spinner */
+    .spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(8, 24, 48, 0.3);
+      border-top-color: var(--navy-deep);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-card {
+        padding: 32px 20px;
+      }
+
+      .login-top-bar {
+        position: static;
+        margin-bottom: 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="bg-decoration" aria-hidden="true"></div>
+
+  <!-- Top Bar -->
+  <header class="login-top-bar">
+    <a href="index.html" class="back-home-link" title="Return to TTU Campus Event Hub">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <line x1="19" y1="12" x2="5" y2="12"></line>
+        <polyline points="12 19 5 12 12 5"></polyline>
+      </svg>
+      <span>Public Event Hub</span>
+    </a>
+
+    <button class="theme-toggle-btn" id="themeToggleBtn" title="Toggle dark/light theme"
+      aria-label="Toggle dark/light theme">
+      <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2">
+        <circle cx="12" cy="12" r="5" />
+        <line x1="12" y1="1" x2="12" y2="3" />
+        <line x1="12" y1="21" x2="12" y2="23" />
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+        <line x1="1" y1="12" x2="3" y2="12" />
+        <line x1="21" y1="12" x2="23" y2="12" />
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+      </svg>
+      <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+        stroke-width="2" style="display:none;">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+  </header>
+
+  <!-- Login Card Container -->
+  <main class="login-container">
+    <div class="login-card">
+      <div class="login-brand">
+        <div class="brand-crest-wrap">
+          <svg viewBox="0 0 48 48" width="34" height="34">
+            <polygon points="24,4 44,14 24,24 4,14" fill="var(--gold)" />
+            <polygon points="24,24 44,14 44,32 24,42 4,32 4,14" fill="none" stroke="var(--gold)" stroke-width="2.5" />
+            <circle cx="24" cy="24" r="4" fill="var(--gold-soft)" />
+          </svg>
+        </div>
+        <h1>TTU IN FOCUS</h1>
+        <div class="login-subtitle">Administrative Portal Access</div>
+        <p class="login-desc">Please verify your staff credentials to enter the event management console.</p>
+      </div>
+
+      <!-- Alert Banner -->
+      <div class="login-alert" id="loginAlert">
+        <span id="alertIcon">⚠️</span>
+        <span id="alertMsg">Invalid email or password.</span>
+      </div>
+
+      <!-- Login Form -->
+      <form id="adminLoginForm">
+        <div class="form-group">
+          <label for="adminEmail">Official University Email</label>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+              </svg>
+            </span>
+            <input type="email" id="adminEmail" placeholder="admin@ttu.edu.gh" required autocomplete="username">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="adminPassword">Administrative Password</label>
+          <div class="input-wrap">
+            <span class="input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </span>
+            <input type="password" id="adminPassword" placeholder="••••••••" required autocomplete="current-password">
+            <button type="button" class="toggle-pass-btn" id="togglePassBtn" title="Show/hide password"
+              aria-label="Toggle password visibility">
+              <svg id="eyeIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                stroke-width="2">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="form-meta-row">
+          <label class="remember-wrap">
+            <input type="checkbox" id="rememberMe" checked>
+            <span>Remember session</span>
+          </label>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <span id="btnText">Sign In to Admin Portal</span>
+          <span class="spinner" id="btnSpinner"></span>
+        </button>
+      </form>
+
+      <!-- Quick Demo Credentials Box -->
+      <div class="demo-credentials-box">
+        <div class="demo-title">🔑 Quick Demo Credentials</div>
+        <div class="demo-creds">
+          Email: <code>admin@ttu.edu.gh</code><br>
+          Password: <code>ttu2026</code>
+        </div>
+        <button type="button" class="btn-fill-demo" id="btnFillDemo">
+          1-Click Autofill Credentials
+        </button>
+      </div>
+    </div>
+
+    <div class="login-footer">
+      <p>Takoradi Technical University · Western Region, Ghana</p>
+      <p style="font-size: 0.72rem;">Directorate of Public Relations &amp; Directorate of ICT Services</p>
+    </div>
+  </main>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      'use strict';
+
+      const emailInput = document.getElementById('adminEmail');
+      const passInput = document.getElementById('adminPassword');
+      const togglePassBtn = document.getElementById('togglePassBtn');
+      const rememberMe = document.getElementById('rememberMe');
+      const form = document.getElementById('adminLoginForm');
+      const alertBox = document.getElementById('loginAlert');
+      const alertMsg = document.getElementById('alertMsg');
+      const alertIcon = document.getElementById('alertIcon');
+      const submitBtn = document.getElementById('submitBtn');
+      const btnText = document.getElementById('btnText');
+      const btnSpinner = document.getElementById('btnSpinner');
+      const fillDemoBtn = document.getElementById('btnFillDemo');
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      const sunIcon = document.querySelector('.sun-icon');
+      const moonIcon = document.querySelector('.moon-icon');
+
+      // 1. Theme Management
+      let theme = localStorage.getItem('ttu_theme') || 'light';
+      applyTheme(theme);
+
+      function applyTheme(newTheme) {
+        theme = newTheme;
+        document.documentElement.setAttribute('data-theme', newTheme);
+        localStorage.setItem('ttu_theme', newTheme);
+        if (sunIcon && moonIcon) {
+          sunIcon.style.display = newTheme === 'dark' ? 'none' : 'block';
+          moonIcon.style.display = newTheme === 'dark' ? 'block' : 'none';
+        }
+      }
+
+      themeToggleBtn.onclick = () => {
+        applyTheme(theme === 'dark' ? 'light' : 'dark');
+      };
+
+      // 2. Check for logout query parameter
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('logout') === 'true') {
+        showAlert('You have successfully signed out of the Admin Portal.', 'success');
+      }
+
+      // 3. Password visibility toggle
+      togglePassBtn.onclick = () => {
+        const isPassword = passInput.type === 'password';
+        passInput.type = isPassword ? 'text' : 'password';
+        togglePassBtn.style.color = isPassword ? 'var(--gold)' : 'var(--text-muted)';
+      };
+
+      // 4. Quick Demo Autofill
+      fillDemoBtn.onclick = () => {
+        emailInput.value = 'admin@ttu.edu.gh';
+        passInput.value = 'ttu2026';
+        showAlert('Demo credentials filled! Click "Sign In" below.', 'success');
+      };
+
+      // 5. Submit Handler
+      form.onsubmit = (e) => {
+        e.preventDefault();
+
+        const email = emailInput.value.trim().toLowerCase();
+        const password = passInput.value.trim();
+
+        // Loading state
+        submitBtn.disabled = true;
+        btnText.textContent = 'Authenticating...';
+        btnSpinner.style.display = 'inline-block';
+
+        setTimeout(() => {
+          // Verify against authorized admin credentials
+          if (email === 'admin@ttu.edu.gh' && password === 'ttu2026') {
+            showAlert('Authentication successful! Redirecting to Admin Portal...', 'success');
+
+            const sessionData = {
+              user: 'admin@ttu.edu.gh',
+              role: 'Events SuperAdmin',
+              name: 'Administrator',
+              token: 'TTU_AUTH_' + Date.now().toString(36).toUpperCase(),
+              loginTime: new Date().toISOString()
+            };
+
+            // Store in sessionStorage or localStorage based on Remember Me
+            sessionStorage.setItem('ttu_admin_session', JSON.stringify(sessionData));
+            if (rememberMe.checked) {
+              localStorage.setItem('ttu_admin_session', JSON.stringify(sessionData));
+            } else {
+              localStorage.removeItem('ttu_admin_session');
+            }
+
+            setTimeout(() => {
+              window.location.href = 'admin.html';
+            }, 600);
+          } else {
+            showAlert('Invalid email or password. Please use authorized credentials.', 'danger');
+            submitBtn.disabled = false;
+            btnText.textContent = 'Sign In to Admin Portal';
+            btnSpinner.style.display = 'none';
+          }
+        }, 500);
+      };
+
+      function showAlert(message, type) {
+        alertMsg.textContent = message;
+        alertIcon.textContent = type === 'success' ? '✅' : '⚠️';
+        alertBox.className = `login-alert ${type}`;
+        alertBox.style.display = 'flex';
+      }
+    });
+  </script>
+</body>
+
+</html>

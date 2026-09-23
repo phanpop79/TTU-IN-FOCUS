@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TTU IN FOCUS — Administrative Dashboard | Takoradi Technical University</title>
+  <meta name="description" content="Official administrative management portal for TTU in Focus Campus Event Hub.">
+  <meta name="theme-color" content="#081830">
+
+  <!-- Authentication Guard (Redirect to login.html if not logged in) -->
+  <script>
+    (function () {
+      try {
+        const session = sessionStorage.getItem('ttu_admin_session') || localStorage.getItem('ttu_admin_session');
+        if (!session) {
+          window.location.replace('login.html');
+        }
+      } catch (e) {
+        window.location.replace('login.html');
+      }
+    })();
+  </script>
+
+  <!-- Google Fonts Preconnect -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="admin.css">
+</head>
+
+<body>
+  <!-- MOBILE SIDEBAR OVERLAY -->
+  <div class="admin-sidebar-overlay" id="sidebarOverlay" aria-hidden="true"></div>
+
+  <div class="admin-layout">
+    <!-- SIDEBAR -->
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="sidebar-brand">
+        <div class="brand-crest" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="34" height="34">
+            <polygon points="24,4 44,14 24,24 4,14" fill="var(--gold)" />
+            <polygon points="24,24 44,14 44,32 24,42 4,32 4,14" fill="none" stroke="var(--gold)" stroke-width="2.5" />
+            <circle cx="24" cy="24" r="4" fill="var(--gold-soft)" />
+          </svg>
+        </div>
+        <div class="brand-info">
+          <h1>TTU IN FOCUS</h1>
+          <span class="brand-badge">Administrative Console</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Admin Navigation">
+        <div class="nav-section-label">Main Menu</div>
+        <a class="nav-item active" data-tab="dashboard">
+          <span class="nav-item-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"></rect>
+              <rect x="14" y="3" width="7" height="7"></rect>
+              <rect x="14" y="14" width="7" height="7"></rect>
+              <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+            <span>Dashboard</span>
+          </span>
+        </a>
+
+        <a class="nav-item" data-tab="events">
+          <span class="nav-item-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+            <span>Events Manager</span>
+          </span>
+          <span class="nav-pill" id="badgeEventsCount">0</span>
+        </a>
+
+        <a class="nav-item" data-tab="registrations">
+          <span class="nav-item-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+              <circle cx="9" cy="7" r="4"></circle>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+            </svg>
+            <span>Attendees &amp; Registrations</span>
+          </span>
+          <span class="nav-pill" id="badgeRegCount">0</span>
+        </a>
+
+        <a class="nav-item" data-tab="inquiries">
+          <span class="nav-item-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <span>Contact Inquiries</span>
+          </span>
+          <span class="nav-pill" id="badgeInqCount">0</span>
+        </a>
+
+        <div class="nav-section-label">Campus Master Data</div>
+        <a class="nav-item" data-tab="departments">
+          <span class="nav-item-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 21h18M3 7v14M21 7v14M6 7V3h12v4M10 11v6M14 11v6"></path>
+            </svg>
+            <span>Faculties &amp; Venues</span>
+          </span>
+        </a>
+
+        <a class="nav-item" data-tab="settings">
+          <span class="nav-item-left">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="3"></circle>
+              <path
+                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+              </path>
+            </svg>
+            <span>System Data &amp; Backup</span>
+          </span>
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="system-status">
+          <span class="status-dot"></span>
+          <span>Storage Engine: LocalStorage Active</span>
+        </div>
+      </div>
+    </aside>
+
+    <!-- MAIN DASHBOARD CONTENT -->
+    <main class="admin-main">
+      <!-- TOPBAR -->
+      <header class="admin-topbar">
+        <div class="topbar-left">
+          <button class="sidebar-toggle-btn" id="sidebarToggleBtn" aria-label="Toggle sidebar menu">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="3" y1="12" x2="21" y2="12"></line>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <line x1="3" y1="18" x2="21" y2="18"></line>
+            </svg>
+          </button>
+          <div class="topbar-title">
+            <h2 id="topbarSectionTitle">Dashboard Overview</h2>
+            <p id="topbarSectionSub">Campus fixtures, analytics, and operational metrics</p>
+          </div>
+        </div>
+
+        <div class="topbar-search">
+          <svg class="search-icon-pos" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+            stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <input type="text" id="globalAdminSearch" placeholder="Search events, registrations, emails..."
+            autocomplete="off">
+        </div>
+
+        <div class="topbar-right">
+          <a href="index.html" class="btn-public-portal" title="Return to public facing event hub" target="_blank">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+              <polyline points="15 3 21 3 21 9"></polyline>
+              <line x1="10" y1="14" x2="21" y2="3"></line>
+            </svg>
+            <span>Public Portal</span>
+          </a>
+
+          <button id="adminThemeToggle" class="admin-icon-btn" title="Toggle dark/light theme"
+            aria-label="Toggle dark/light theme">
+            <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2">
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </svg>
+            <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+              stroke-width="2" style="display:none;">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+            </svg>
+          </button>
+
+          <button id="adminNotifBtn" class="admin-icon-btn" title="Notifications">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="notif-badge" id="topbarNotifBadge">0</span>
+          </button>
+
+          <div class="admin-user-profile" id="adminProfileBtn">
+            <div class="user-avatar">AD</div>
+            <div class="user-details">
+              <span class="user-name">Administrator</span>
+              <span class="user-role">Events Secretariat</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- CONTENT BODY -->
+      <div class="admin-content">
+
+        <!-- ==========================================
+             TAB 1: DASHBOARD
+             ========================================== -->
+        <section class="tab-pane active" id="tab-dashboard">
+          <!-- KPI GRID -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-card-left">
+                <h4>Total Events</h4>
+                <div class="stat-card-value" id="kpiTotalEvents">0</div>
+                <div class="stat-card-sub"><span id="kpiUpcomingCount">0</span> Upcoming · <span
+                    id="kpiPastCount">0</span> Past</div>
+              </div>
+              <div class="stat-card-icon icon-gold">📅</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-left">
+                <h4>Total Registrations</h4>
+                <div class="stat-card-value" id="kpiTotalRegs">0</div>
+                <div class="stat-card-sub">Recorded attendee passes</div>
+              </div>
+              <div class="stat-card-icon icon-green">👥</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-left">
+                <h4>Average Fill Rate</h4>
+                <div class="stat-card-value" id="kpiFillRate">0%</div>
+                <div class="stat-card-sub">Seat capacity utilized</div>
+              </div>
+              <div class="stat-card-icon icon-navy">📊</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-left">
+                <h4>Pending Inquiries</h4>
+                <div class="stat-card-value" id="kpiUnreadInq">0</div>
+                <div class="stat-card-sub">Unread student messages</div>
+              </div>
+              <div class="stat-card-icon icon-red">📬</div>
+            </div>
+
+            <div class="stat-card">
+              <div class="stat-card-left">
+                <h4>Active Bookmarks</h4>
+                <div class="stat-card-value" id="kpiBookmarks">0</div>
+                <div class="stat-card-sub">Saved by campus users</div>
+              </div>
+              <div class="stat-card-icon icon-purple">⭐</div>
+            </div>
+          </div>
+
+          <!-- DASHBOARD TWO-COLUMN PANELS -->
+          <div class="dashboard-grid">
+            <div class="dashboard-col-left">
+              <!-- CAPACITY MONITOR -->
+              <div class="panel-card">
+                <div class="panel-header">
+                  <h4>Venue Capacity Utilization Monitor</h4>
+                  <button class="admin-btn admin-btn-outline admin-btn-sm" id="dashViewAllEventsBtn">View
+                    Events</button>
+                </div>
+                <div class="panel-body">
+                  <div class="capacity-monitor-list" id="capacityMonitorList">
+                    <!-- Populated dynamically -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- RECENT REGISTRATIONS -->
+              <div class="panel-card">
+                <div class="panel-header">
+                  <h4>Recent Attendee Registrations</h4>
+                  <button class="admin-btn admin-btn-outline admin-btn-sm" id="dashViewAllRegBtn">All Attendees</button>
+                </div>
+                <div class="table-responsive">
+                  <table class="admin-table">
+                    <thead>
+                      <tr>
+                        <th>Student / Attendee</th>
+                        <th>ID Number</th>
+                        <th>Event Name</th>
+                        <th>Date Booked</th>
+                      </tr>
+                    </thead>
+                    <tbody id="dashRecentRegBody">
+                      <!-- Populated dynamically -->
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            <div class="dashboard-col-right">
+              <!-- REGISTRATION DEADLINES -->
+              <div class="panel-card">
+                <div class="panel-header">
+                  <h4>Closing Registration Deadlines</h4>
+                  <span class="admin-badge badge-hot">Urgent</span>
+                </div>
+                <div class="panel-body">
+                  <div class="dash-deadline-list" id="dashDeadlinesList">
+                    <!-- Populated dynamically -->
+                  </div>
+                </div>
+              </div>
+
+              <!-- RECENT INQUIRIES -->
+              <div class="panel-card">
+                <div class="panel-header">
+                  <h4>Recent Contact Messages</h4>
+                  <button class="admin-btn admin-btn-outline admin-btn-sm" id="dashViewAllInqBtn">Open Inbox</button>
+                </div>
+                <div class="panel-body" id="dashRecentInqBody">
+                  <!-- Populated dynamically -->
+                </div>
+              </div>
+
+              <!-- CATEGORIES BREAKDOWN -->
+              <div class="panel-card">
+                <div class="panel-header">
+                  <h4>Category Distribution</h4>
+                </div>
+                <div class="panel-body">
+                  <div class="category-pills-wrap" id="dashCategoryPills">
+                    <!-- Populated dynamically -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             TAB 2: EVENTS MANAGER (FULL CRUD)
+             ========================================== -->
+        <section class="tab-pane" id="tab-events">
+          <div class="content-header">
+            <div class="content-header-text">
+              <h3>Campus Events Catalog</h3>
+              <p>Create, update, archive, and manage all events across Takoradi Technical University</p>
+            </div>
+            <div class="content-header-actions">
+              <button class="admin-btn admin-btn-outline" id="btnResetEventsDefault" title="Restore sample dataset">
+                🔄 Restore Defaults
+              </button>
+              <button class="admin-btn admin-btn-gold" id="btnOpenAddEventModal">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                  <line x1="12" y1="5" x2="12" y2="19"></line>
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                <span>Add New Event</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- TOOLBAR & FILTERS -->
+          <div class="table-toolbar">
+            <div class="toolbar-filters">
+              <div class="toolbar-search">
+                <input type="text" id="eventTableSearch" placeholder="Search by title, dept, venue...">
+              </div>
+              <div class="toolbar-select">
+                <select id="eventCategoryFilter">
+                  <option value="all">All Categories</option>
+                  <option value="Academic">Academic</option>
+                  <option value="Social & Cultural">Social & Cultural</option>
+                  <option value="Sports">Sports</option>
+                  <option value="Professional">Professional</option>
+                  <option value="Tech & Innovation">Tech & Innovation</option>
+                </select>
+              </div>
+              <div class="toolbar-select">
+                <select id="eventStatusFilter">
+                  <option value="all">All Timelines</option>
+                  <option value="upcoming">Upcoming Only</option>
+                  <option value="past">Archived / Past</option>
+                  <option value="featured">Featured Spotlight</option>
+                  <option value="hot">Trending / Hot</option>
+                </select>
+              </div>
+            </div>
+            <div class="toolbar-stats">
+              <span style="font-size: 0.85rem; color: var(--admin-text-muted);" id="eventsFilteredCount">Showing 0
+                events</span>
+            </div>
+          </div>
+
+          <!-- EVENTS DATA TABLE -->
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Event &amp; Venue</th>
+                  <th>Category</th>
+                  <th>Department / Faculty</th>
+                  <th>Date &amp; Time</th>
+                  <th>Capacity / Taken</th>
+                  <th>Status Badges</th>
+                  <th style="text-align: right;">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="eventsTableBody">
+                <!-- Events populated via JavaScript -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             TAB 3: REGISTRATIONS & ATTENDEES
+             ========================================== -->
+        <section class="tab-pane" id="tab-registrations">
+          <div class="content-header">
+            <div class="content-header-text">
+              <h3>Registrations &amp; Attendee Management</h3>
+              <p>Track student bookings, verify registration passes, and export attendance rosters</p>
+            </div>
+            <div class="content-header-actions">
+              <button class="admin-btn admin-btn-outline" id="btnManualReg">
+                + Manual Walk-in Reg
+              </button>
+              <button class="admin-btn admin-btn-gold" id="btnExportCSV">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Export to CSV</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- TOOLBAR -->
+          <div class="table-toolbar">
+            <div class="toolbar-filters">
+              <div class="toolbar-search">
+                <input type="text" id="regTableSearch" placeholder="Search by student name, ID, email...">
+              </div>
+              <div class="toolbar-select">
+                <select id="regEventFilter">
+                  <option value="all">All Events</option>
+                  <!-- Populated dynamically -->
+                </select>
+              </div>
+            </div>
+            <div class="toolbar-stats">
+              <span style="font-size: 0.85rem; color: var(--admin-text-muted);" id="regFilteredCount">0 Total
+                Registrations</span>
+            </div>
+          </div>
+
+          <!-- REGISTRATIONS TABLE -->
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Pass ID</th>
+                  <th>Attendee Full Name</th>
+                  <th>Student / Staff ID</th>
+                  <th>Email Address</th>
+                  <th>Department</th>
+                  <th>Target Event</th>
+                  <th>Registration Date</th>
+                  <th style="text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="registrationsTableBody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             TAB 4: CONTACT INQUIRIES
+             ========================================== -->
+        <section class="tab-pane" id="tab-inquiries">
+          <div class="content-header">
+            <div class="content-header-text">
+              <h3>Secretariat Inquiries &amp; Messages</h3>
+              <p>Inquiries received from students, alumni, and external visitors via the contact form</p>
+            </div>
+            <div class="content-header-actions">
+              <button class="admin-btn admin-btn-outline" id="btnMarkAllInquiriesRead">
+                Mark All as Read
+              </button>
+            </div>
+          </div>
+
+          <!-- TOOLBAR -->
+          <div class="table-toolbar">
+            <div class="toolbar-filters">
+              <div class="toolbar-search">
+                <input type="text" id="inqTableSearch" placeholder="Search sender, email, subject...">
+              </div>
+              <div class="toolbar-select">
+                <select id="inqStatusFilter">
+                  <option value="all">All Messages</option>
+                  <option value="unread">Unread Only</option>
+                  <option value="read">Read</option>
+                  <option value="replied">Replied</option>
+                </select>
+              </div>
+            </div>
+            <div class="toolbar-stats">
+              <span style="font-size: 0.85rem; color: var(--admin-text-muted);" id="inqFilteredCount">0 Messages</span>
+            </div>
+          </div>
+
+          <!-- INQUIRIES TABLE -->
+          <div class="table-responsive">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Sender</th>
+                  <th>Email</th>
+                  <th>Subject / Area</th>
+                  <th>Date Sent</th>
+                  <th>Status</th>
+                  <th style="text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="inquiriesTableBody">
+                <!-- Populated dynamically -->
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ==========================================
+             TAB 5: DEPARTMENTS & VENUES DIRECTORY
+             ========================================== -->
+        <section class="tab-pane" id="tab-departments">
+          <div class="content-header">
+            <div class="content-header-text">
+              <h3>Faculties &amp; Academic Directory</h3>
+              <p>Organizational overview of TTU faculties and active campus venues</p>
+            </div>
+          </div>
+
+          <h4 style="font-family: var(--font-display); margin-bottom: 16px;">Academic Faculties</h4>
+          <div class="faculties-grid" id="facultiesAdminGrid">
+            <!-- Populated dynamically -->
+          </div>
+
+          <h4 style="font-family: var(--font-display); margin-bottom: 16px;">Campus Event Venues</h4>
+          <div class="venues-list-grid" id="venuesAdminGrid">
+            <!-- Populated dynamically -->
+          </div>
+        </section>
+
+        <!-- ==========================================
+             TAB 6: SETTINGS & DATA MANAGEMENT
+             ========================================== -->
+        <section class="tab-pane" id="tab-settings">
+          <div class="content-header">
+            <div class="content-header-text">
+              <h3>System Data &amp; Backup Hub</h3>
+              <p>Export portal records, import backups, manage administrative credentials, and maintenance</p>
+            </div>
+          </div>
+
+          <div class="settings-grid">
+            <!-- BACKUP EXPORT -->
+            <div class="settings-card">
+              <h4>📦 Export Portal Backup</h4>
+              <p>Download a complete JSON snapshot containing all events, attendee registrations, and inquiries. Safe
+                for offline backup and migrations.</p>
+              <button class="admin-btn admin-btn-gold" id="btnDownloadBackup">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                <span>Download JSON Backup</span>
+              </button>
+            </div>
+
+            <!-- RESTORE BACKUP -->
+            <div class="settings-card">
+              <h4>📥 Restore from Backup</h4>
+              <p>Upload a previously exported JSON backup file to restore events, registrations, and inquiry history.</p>
+              <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                <input type="file" id="importJsonInput" accept=".json" style="display: none;">
+                <button class="admin-btn admin-btn-outline" id="btnTriggerImport">Select JSON File</button>
+                <span id="importFileName"
+                  style="font-size: 0.8rem; color: var(--admin-text-muted); align-self: center;"></span>
+              </div>
+            </div>
+
+            <!-- FACTORY RESET -->
+            <div class="settings-card">
+              <h4 style="color: var(--danger);">⚠️ Factory Reset Demo Data</h4>
+              <p>Restore the original curated 14 campus fixtures and clear custom registrations. Useful for demo resets.
+              </p>
+              <button class="admin-btn admin-btn-danger" id="btnFactoryReset">
+                Reset All Records to Factory Default
+              </button>
+            </div>
+
+            <!-- ADMIN PROFILE & SECURITY -->
+            <div class="settings-card">
+              <h4>🔐 Administrative Session</h4>
+              <p>Manage administrative session and security settings for the Takoradi Technical University event
+                secretariat.</p>
+              <div style="font-size: 0.85rem; margin-bottom: 14px;">
+                <div><strong>Active User:</strong> <span id="adminSessionUser">admin@ttu.edu.gh</span></div>
+                <div><strong>Role:</strong> SuperAdmin (Directorate of Events)</div>
+              </div>
+              <button class="admin-btn admin-btn-outline" id="btnAdminLogout">
+                Sign Out Admin Session
+              </button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ==========================================================================
+       MODALS
+       ========================================================================== -->
+
+  <!-- ADD / EDIT EVENT MODAL -->
+  <div class="admin-modal-overlay" id="eventFormModal" role="dialog" aria-modal="true" tabindex="-1">
+    <div class="admin-modal">
+      <div class="modal-header-admin">
+        <h3 id="eventFormModalTitle">Add New Campus Event</h3>
+        <button class="modal-close-admin" id="eventFormCloseBtn" aria-label="Close dialog">&times;</button>
+      </div>
+
+      <form id="adminEventForm">
+        <div class="admin-modal-body">
+          <input type="hidden" id="formEventId" value="">
+
+          <div class="form-group-admin">
+            <label for="fEventTitle">Event Title *</label>
+            <input type="text" id="fEventTitle" placeholder="e.g. 32nd Matriculation Ceremony" required>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group-admin">
+              <label for="fEventCategory">Category *</label>
+              <select id="fEventCategory" required>
+                <option value="Academic">Academic</option>
+                <option value="Social & Cultural">Social & Cultural</option>
+                <option value="Sports">Sports</option>
+                <option value="Professional">Professional</option>
+                <option value="Tech & Innovation">Tech & Innovation</option>
+              </select>
+            </div>
+
+            <div class="form-group-admin">
+              <label for="fEventDept">Department / Organizing Unit *</label>
+              <input type="text" id="fEventDept" placeholder="e.g. Faculty of Engineering" required>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group-admin">
+              <label for="fEventFaculty">Faculty *</label>
+              <select id="fEventFaculty" required>
+                <option value="Engineering & Technology">Engineering & Technology</option>
+                <option value="Applied Sciences">Applied Sciences</option>
+                <option value="Applied Arts & Design">Applied Arts & Design</option>
+                <option value="Business Studies">Business Studies</option>
+                <option value="Built & Natural Environment">Built & Natural Environment</option>
+                <option value="University Sports">University Sports</option>
+                <option value="Central Administration">Central Administration</option>
+                <option value="Student Affairs">Student Affairs</option>
+              </select>
+            </div>
+
+            <div class="form-group-admin">
+              <label for="fEventVenue">Venue *</label>
+              <input type="text" id="fEventVenue" placeholder="e.g. J.S. Addo Auditorium" required>
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group-admin">
+              <label for="fEventStartDate">Start Date &amp; Time *</label>
+              <input type="datetime-local" id="fEventStartDate" required>
+            </div>
+
+            <div class="form-group-admin">
+              <label for="fEventEndDate">End Date &amp; Time (Optional)</label>
+              <input type="datetime-local" id="fEventEndDate">
+            </div>
+          </div>
+
+          <div class="form-grid-2">
+            <div class="form-group-admin">
+              <label for="fEventCapacity">Seat Capacity *</label>
+              <input type="number" id="fEventCapacity" min="1" max="10000" placeholder="1000" required>
+            </div>
+
+            <div class="form-group-admin">
+              <label for="fEventTaken">Pre-registered / Taken Seats</label>
+              <input type="number" id="fEventTaken" min="0" placeholder="0">
+            </div>
+          </div>
+
+          <div class="form-group-admin">
+            <label for="fEventDeadline">Registration Deadline (Optional)</label>
+            <input type="datetime-local" id="fEventDeadline">
+          </div>
+
+          <div class="form-group-admin">
+            <label for="fEventDesc">Full Description *</label>
+            <textarea id="fEventDesc" rows="3" placeholder="Detailed schedule, speakers, and instructions..."
+              required></textarea>
+          </div>
+
+          <div class="form-group-admin">
+            <label for="fEventImg">Poster / Cover Image URL *</label>
+              <div class="url-input-action-group">
+                <input type="url" id="fEventImg" placeholder="https://images.unsplash.com/..." required>
+                <button type="button" class="admin-btn admin-btn-outline" id="btnUploadByUrl">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                   <line x1="12" y1="3" x2="12" y2="15"></line>
+                  </svg>
+                  <span>Upload</span>
+                </button>
+              </div>
+
+  <div class="image-preset-picker">
+    <span style="font-size: 0.75rem; color: var(--admin-text-muted); align-self: center;">Presets:</span>
+    <button type="button" class="preset-chip"
+      data-url="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">🎓 Graduation</button>
+    <button type="button" class="preset-chip"
+      data-url="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">⚡ Tech &amp; Hack</button>
+    <button type="button" class="preset-chip"
+      data-url="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">⚽ Sports</button>
+    <button type="button" class="preset-chip"
+      data-url="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">🎭 Culture &amp; Gala</button>
+    <button type="button" class="preset-chip"
+      data-url="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">🔬 Colloquium</button>
+  </div>
+</div>
+
+          <div class="form-group-admin">
+            <label for="fEventTags">Tags (Comma-separated)</label>
+            <input type="text" id="fEventTags" placeholder="e.g. conference, robotics, engineering, students">
+          </div>
+
+          <div class="form-checkbox-row">
+            <label class="custom-checkbox">
+              <input type="checkbox" id="fEventFeatured">
+              <span>🌟 Set as Homepage Featured Spotlight Hero</span>
+            </label>
+
+            <label class="custom-checkbox">
+              <input type="checkbox" id="fEventHot">
+              <span>🔥 Mark as Trending / Hot Event</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-footer-admin">
+          <button type="button" class="admin-btn admin-btn-outline" id="eventFormCancelBtn">Cancel</button>
+          <button type="submit" class="admin-btn admin-btn-gold" id="eventFormSaveBtn">Save Event</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- DELETE CONFIRMATION MODAL -->
+  <div class="admin-modal-overlay" id="deleteConfirmModal" role="dialog" aria-modal="true" tabindex="-1">
+    <div class="admin-modal" style="max-width: 440px;">
+      <div class="modal-header-admin">
+        <h3 style="color: var(--danger);">Confirm Event Deletion</h3>
+        <button class="modal-close-admin" id="deleteModalCloseBtn">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <p>Are you sure you want to permanently delete <strong id="deleteTargetTitle">this event</strong>?</p>
+        <p style="font-size: 0.8rem; color: var(--admin-text-muted); margin-top: 8px;">This will remove the event from
+          the public calendar and invalidate pending bookings for this event.</p>
+      </div>
+      <div class="modal-footer-admin">
+        <button class="admin-btn admin-btn-outline" id="deleteModalCancelBtn">Cancel</button>
+        <button class="admin-btn admin-btn-danger" id="deleteModalConfirmBtn">Yes, Delete Event</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ATTENDEE TICKET PASS MODAL -->
+  <div class="admin-modal-overlay" id="ticketModal" role="dialog" aria-modal="true" tabindex="-1">
+    <div class="admin-modal" style="max-width: 520px;">
+      <div class="modal-header-admin">
+        <h3>Official Attendee Pass</h3>
+        <button class="modal-close-admin" id="ticketModalCloseBtn">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <div class="ticket-preview-box">
+          <div class="ticket-header">
+            <div>
+              <span
+                style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--gold); text-transform: uppercase;">Takoradi
+                Technical University</span>
+              <div class="ticket-header-title">TTU IN FOCUS ENTRY PASS</div>
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--gold);" id="tPassId">REG-001
+            </div>
+          </div>
+
+          <div class="ticket-details-grid">
+            <div class="ticket-item">
+              <strong>Attendee Name</strong>
+              <span id="tName">--</span>
+            </div>
+            <div class="ticket-item">
+              <strong>Student / Staff ID</strong>
+              <span id="tIndex">--</span>
+            </div>
+            <div class="ticket-item" style="grid-column: 1 / -1;">
+              <strong>Event Name</strong>
+              <span id="tEvent" style="font-size: 1rem; font-weight: 700;">--</span>
+            </div>
+            <div class="ticket-item">
+              <strong>Email Address</strong>
+              <span id="tEmail">--</span>
+            </div>
+            <div class="ticket-item">
+              <strong>Department</strong>
+              <span id="tDept">--</span>
+            </div>
+            <div class="ticket-item" style="grid-column: 1 / -1;">
+              <strong>Registration Date</strong>
+              <span id="tTimestamp">--</span>
+            </div>
+          </div>
+        </div>
+        <p style="font-size: 0.8rem; color: var(--admin-text-muted); text-align: center;">Authorized by the Takoradi
+          Technical University Directorate of Public Relations and Events Secretariat.</p>
+      </div>
+      <div class="modal-footer-admin">
+        <button class="admin-btn admin-btn-outline" id="ticketModalDoneBtn">Close</button>
+        <button class="admin-btn admin-btn-gold" onclick="window.print()">🖨️ Print Pass</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- INQUIRY VIEW & REPLY MODAL -->
+  <div class="admin-modal-overlay" id="inquiryModal" role="dialog" aria-modal="true" tabindex="-1">
+    <div class="admin-modal" style="max-width: 580px;">
+      <div class="modal-header-admin">
+        <h3>Contact Message Details</h3>
+        <button class="modal-close-admin" id="inquiryModalCloseBtn">&times;</button>
+      </div>
+      <div class="admin-modal-body">
+        <div style="margin-bottom: 16px;">
+          <div style="font-size: 0.75rem; color: var(--admin-text-muted); text-transform: uppercase;">From</div>
+          <h4 id="inqSenderName" style="font-size: 1.1rem; margin-top: 2px;">Sender Name</h4>
+          <p style="font-size: 0.85rem; color: var(--gold);" id="inqSenderEmail">sender@ttu.edu.gh</p>
+        </div>
+
+        <div style="margin-bottom: 16px;">
+          <div style="font-size: 0.75rem; color: var(--admin-text-muted); text-transform: uppercase;">Subject / Focus
+          </div>
+          <div id="inqSubject" style="font-weight: 600; font-size: 0.95rem;">Subject</div>
+        </div>
+
+        <div
+          style="background: var(--admin-surface-alt); padding: 16px; border-radius: var(--radius-s); margin-bottom: 20px;">
+          <div style="font-size: 0.75rem; color: var(--admin-text-muted); text-transform: uppercase; margin-bottom: 6px;">
+            Message Content</div>
+          <p id="inqMessageText" style="font-size: 0.9rem; line-height: 1.6; white-space: pre-wrap;">Message details...
+          </p>
+        </div>
+
+        <div class="form-group-admin">
+          <label for="inqStatusSelect">Update Inquiry Status</label>
+          <select id="inqStatusSelect">
+            <option value="unread">🔴 Mark as Unread</option>
+            <option value="read">🟡 Mark as Read</option>
+            <option value="replied">🟢 Mark as Replied / Resolved</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer-admin">
+        <button class="admin-btn admin-btn-outline" id="inquiryModalCloseActionBtn">Close</button>
+        <button class="admin-btn admin-btn-gold" id="inquiryModalSaveStatusBtn">Save Status</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MANUAL WALK-IN REGISTRATION MODAL -->
+  <div class="admin-modal-overlay" id="manualRegModal" role="dialog" aria-modal="true" tabindex="-1">
+    <div class="admin-modal" style="max-width: 480px;">
+      <div class="modal-header-admin">
+        <h3>Manual Walk-In Registration</h3>
+        <button class="modal-close-admin" id="manualRegCloseBtn">&times;</button>
+      </div>
+      <form id="manualRegForm">
+        <div class="admin-modal-body">
+          <div class="form-group-admin">
+            <label for="mRegEventSelect">Select Event *</label>
+            <select id="mRegEventSelect" required>
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+          <div class="form-group-admin">
+            <label for="mRegName">Full Name *</label>
+            <input type="text" id="mRegName" placeholder="e.g. Kwame Osei" required>
+          </div>
+          <div class="form-group-admin">
+            <label for="mRegIndex">Student / Staff ID *</label>
+            <input type="text" id="mRegIndex" placeholder="e.g. TTU/BTECH/24/1102" required>
+          </div>
+          <div class="form-group-admin">
+            <label for="mRegEmail">Email Address *</label>
+            <input type="email" id="mRegEmail" placeholder="e.g. kwame.osei@ttu.edu.gh" required>
+          </div>
+          <div class="form-group-admin">
+            <label for="mRegDept">Faculty / Department</label>
+            <input type="text" id="mRegDept" placeholder="e.g. Electrical Engineering">
+          </div>
+        </div>
+        <div class="modal-footer-admin">
+          <button type="button" class="admin-btn admin-btn-outline" id="manualRegCancelBtn">Cancel</button>
+          <button type="submit" class="admin-btn admin-btn-gold">Confirm Pass</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="admin-toast" id="adminToast" role="status" aria-live="polite"></div>
+
+  <script src="admin.js"></script>
+</body>
+
+</html>
