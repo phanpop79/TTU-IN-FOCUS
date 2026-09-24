@@ -592,10 +592,10 @@ textarea:focus {
   transition: opacity var(--transition-normal);
 }
 
-.nav-overlay.open {
+/* .nav-overlay.open {
   opacity: 1;
   pointer-events: auto;
-}
+} */
 
 /* ==========================================================================
    HERO SECTION
