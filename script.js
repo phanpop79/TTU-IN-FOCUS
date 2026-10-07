@@ -12,6 +12,123 @@ document.addEventListener('DOMContentLoaded', () => {
   const DEFAULT_EVENTS = [
     {
       id: 1,
+      title: "NACOC & TTU National Campus Security & Substance Abuse Prevention Summit",
+      category: "Academic",
+      dept: "Office of the Dean of Students & Security Directorate",
+      faculty: "Central Administration",
+      date: "2026-09-15T09:00",
+      endDate: "2026-09-15T15:30",
+      venue: "J.S. Addo Auditorium, Main Campus",
+      desc: "High-level bilateral strategic stakeholders summit between the Narcotics Control Commission (NACOC), military intelligence liaisons, and TTU University Management to strengthen campus security frameworks, substance prevention policies, and student wellness programs across all campuses.",
+      img: "images/ttu_delegation_group.jpg",
+      gallery: [
+        "images/ttu_delegation_group.jpg",
+        "images/ttu_nacoc_dialogue.jpg",
+        "images/ttu_leadership_address.jpg",
+        "images/ttu_equipment_donation.jpg",
+        "images/ttu_admin_meeting.jpg"
+      ],
+      capacity: 1200,
+      taken: 940,
+      featured: true,
+      hot: true,
+      deadline: "2026-09-14T17:00",
+      tags: ["nacoc", "security", "leadership", "administration", "substance prevention", "summit"]
+    },
+    {
+      id: 2,
+      title: "Campus Facility Modernization & Laboratory Logistics Presentation",
+      category: "Tech & Innovation",
+      dept: "Directorate of Works & Physical Development",
+      faculty: "Engineering & Technology",
+      date: "2026-09-22T10:00",
+      endDate: "2026-09-22T13:00",
+      venue: "Engineering Block C & Logistics Depot",
+      desc: "Official handover ceremony and facility inspection of new split-system cooling units, computer laboratory consumables, and campus infrastructure enhancements to optimize classroom and laboratory learning environments for faculty and students.",
+      img: "images/ttu_equipment_donation.jpg",
+      gallery: [
+        "images/ttu_equipment_donation.jpg",
+        "images/ttu_delegation_group.jpg",
+        "images/ttu_leadership_address.jpg"
+      ],
+      capacity: 300,
+      taken: 185,
+      featured: false,
+      hot: false,
+      deadline: "2026-09-20T23:59",
+      tags: ["infrastructure", "engineering", "logistics", "facilities", "development"]
+    },
+    {
+      id: 3,
+      title: "NACOC Youth Drug Prevention & Campus Safety Dialogue",
+      category: "Social & Cultural",
+      dept: "SRC Guidance & Student Welfare Committee",
+      faculty: "Student Affairs",
+      date: "2026-10-02T11:00",
+      endDate: "2026-10-02T14:30",
+      venue: "BU Campus Conference Hall",
+      desc: "An interactive youth sensitization session featuring senior law enforcement officers from the Narcotics Control Commission engaging student leaders, hall executives, and peer counselors on combating illicit substance proliferation and promoting mental health.",
+      img: "images/ttu_nacoc_dialogue.jpg",
+      gallery: [
+        "images/ttu_nacoc_dialogue.jpg",
+        "images/ttu_delegation_group.jpg",
+        "images/ttu_admin_meeting.jpg"
+      ],
+      capacity: 450,
+      taken: 380,
+      featured: false,
+      hot: true,
+      deadline: "2026-10-01T18:00",
+      tags: ["nacoc", "youth", "safety", "src", "guidance", "welfare"]
+    },
+    {
+      id: 4,
+      title: "Faculty Leadership & Academic Excellence Colloquium",
+      category: "Academic",
+      dept: "Office of the Pro Vice-Chancellor",
+      faculty: "Central Administration",
+      date: "2026-10-12T09:30",
+      endDate: "2026-10-12T15:00",
+      venue: "Council Chamber & J.S. Addo Executive Suite",
+      desc: "Executive symposium with Deans of Faculties, Heads of Academic Departments, and principal officers addressing institutional accreditation, curriculum enhancements, research publication output, and international university rankings.",
+      img: "images/ttu_leadership_address.jpg",
+      gallery: [
+        "images/ttu_leadership_address.jpg",
+        "images/ttu_admin_meeting.jpg",
+        "images/ttu_delegation_group.jpg"
+      ],
+      capacity: 250,
+      taken: 210,
+      featured: false,
+      hot: false,
+      deadline: "2026-10-10T17:00",
+      tags: ["leadership", "colloquium", "academic", "administration", "excellence"]
+    },
+    {
+      id: 5,
+      title: "Women in Technical Education & Leadership Roundtable (WITED)",
+      category: "Academic",
+      dept: "WITED Secretariat & Directorate of Research",
+      faculty: "Applied Sciences & Technology",
+      date: "2026-10-28T10:00",
+      endDate: "2026-10-28T14:00",
+      venue: "Faculty of Applied Sciences Conference Room",
+      desc: "A transformative consultative forum exploring gender inclusivity in TVET and STEM disciplines, mentorship for female engineering students, and leadership development across higher education institutions in Ghana.",
+      img: "images/ttu_admin_meeting.jpg",
+      gallery: [
+        "images/ttu_admin_meeting.jpg",
+        "images/ttu_leadership_address.jpg",
+        "images/ttu_delegation_group.jpg"
+      ],
+      capacity: 200,
+      taken: 160,
+      featured: false,
+      hot: false,
+      deadline: "2026-10-26T23:59",
+      tags: ["wited", "women in tech", "stem", "leadership", "policy", "academic"]
+    },
+    {
+      id: 6,
       title: "31st Annual Matriculation Ceremony",
       category: "Academic",
       dept: "Office of the Registrar",
@@ -20,16 +137,21 @@ document.addEventListener('DOMContentLoaded', () => {
       endDate: "2026-08-25T12:30",
       venue: "J.S. Addo Auditorium, Main Campus",
       desc: "Formal induction of newly admitted undergraduate, diploma, and postgraduate students into Takoradi Technical University. The ceremony features the official matriculation oath administration by the Registrar and the Vice-Chancellor's inaugural address.",
-      img: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      img: "images/ttu_matriculation_graduate.jpg",
+      gallery: [
+        "images/ttu_matriculation_graduate.jpg",
+        "images/ttu_leadership_address.jpg",
+        "images/ttu_admin_meeting.jpg"
+      ],
       capacity: 1800,
       taken: 1540,
-      featured: true,
+      featured: false,
       hot: false,
       deadline: "2026-08-24T17:00",
       tags: ["matriculation", "freshers", "ceremony", "administration"]
     },
     {
-      id: 2,
+      id: 7,
       title: "Engineering Innovation & Research Colloquium",
       category: "Academic",
       dept: "Faculty of Engineering",
@@ -47,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
       tags: ["engineering", "research", "robotics", "renewable energy"]
     },
     {
-      id: 3,
+      id: 8,
       title: "Code4Ghana Campus Hackathon 2026",
       category: "Tech & Innovation",
       dept: "Computer Science & ICT",
@@ -65,7 +187,7 @@ document.addEventListener('DOMContentLoaded', () => {
       tags: ["hackathon", "coding", "software", "innovation", "tech"]
     },
     {
-      id: 4,
+      id: 9,
       title: "Grand Cultural Durbar & Traditional Fashion Gala",
       category: "Social & Cultural",
       dept: "SRC Cultural Committee",
@@ -74,7 +196,12 @@ document.addEventListener('DOMContentLoaded', () => {
       endDate: "2026-08-29T21:00",
       venue: "University Central Quadrangle",
       desc: "An electric celebration of Ghana's rich ethnic heritage, featuring royal chieftaincy processions, traditional drum rhythms, folklore poetry, kente and fugu runway shows, and regional culinary exhibitions.",
-      img: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      img: "images/ttu_cultural_fashion_gala.jpg",
+      gallery: [
+        "images/ttu_cultural_fashion_gala.jpg",
+        "images/ttu_brass_band.jpg",
+        "images/ttu_choral_symphony.jpg"
+      ],
       capacity: 2500,
       taken: 1980,
       featured: false,
@@ -83,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
       tags: ["culture", "fashion", "durbar", "tradition", "music", "src"]
     },
     {
-      id: 5,
+      id: 10,
       title: "TTU Choral Symphony & Spoken Word Night",
       category: "Social & Cultural",
       dept: "Department of Creative Arts",
@@ -92,7 +219,12 @@ document.addEventListener('DOMContentLoaded', () => {
       endDate: "2026-10-09T22:00",
       venue: "Open-Air Campus Amphitheatre",
       desc: "An enchanting evening featuring harmonious classical choral anthems, contemporary gospel melodies, orchestral performances, and thought-provoking spoken word poetry by the TTU Mass Choir and guest artists.",
-      img: "https://images.unsplash.com/photo-1507120410856-1f35574c3b3c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      img: "images/ttu_choral_symphony.jpg",
+      gallery: [
+        "images/ttu_choral_symphony.jpg",
+        "images/ttu_brass_band.jpg",
+        "images/ttu_cultural_fashion_gala.jpg"
+      ],
       capacity: 600,
       taken: 420,
       featured: false,
@@ -101,7 +233,7 @@ document.addEventListener('DOMContentLoaded', () => {
       tags: ["music", "choir", "poetry", "arts", "entertainment"]
     },
     {
-      id: 6,
+      id: 11,
       title: "Vice-Chancellor's Inter-Hall Football Cup Finals",
       category: "Sports",
       dept: "Sports & Physical Education Directorate",
@@ -110,7 +242,11 @@ document.addEventListener('DOMContentLoaded', () => {
       endDate: "2026-09-12T18:30",
       venue: "TTU Sports Stadium Arena",
       desc: "The pinnacle of campus sporting rivalry as Ahanta Hall battles Western Hall in the championship final of the 2026 Inter-Hall Football League. Includes live half-time brass band performances and trophy presentations.",
-      img: "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      img: "images/ttu_football_finals.jpg",
+      gallery: [
+        "images/ttu_football_finals.jpg",
+        "images/ttu_brass_band.jpg"
+      ],
       capacity: 3500,
       taken: 3120,
       featured: false,
@@ -119,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
       tags: ["sports", "football", "finals", "inter-hall", "tournament"]
     },
     {
-      id: 7,
+      id: 12,
       title: "Annual Western Region Track & Field Invitational",
       category: "Sports",
       dept: "Sports Directorate",
@@ -128,7 +264,11 @@ document.addEventListener('DOMContentLoaded', () => {
       endDate: "2026-10-17T17:00",
       venue: "TTU Athletics Oval & Stadium",
       desc: "Premier track and field championship hosting collegiate athletic teams competing in 100m/200m/400m sprints, 4x100m relays, high jump, javelin, and long jump qualifiers.",
-      img: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      img: "images/ttu_brass_band.jpg",
+      gallery: [
+        "images/ttu_brass_band.jpg",
+        "images/ttu_football_finals.jpg"
+      ],
       capacity: 2000,
       taken: 1240,
       featured: false,
@@ -137,7 +277,7 @@ document.addEventListener('DOMContentLoaded', () => {
       tags: ["athletics", "track", "field", "sprint", "fitness"]
     },
     {
-      id: 8,
+      id: 13,
       title: "National Hospitality & Culinary Arts Expo",
       category: "Academic",
       dept: "Hospitality & Tourism Management",
@@ -155,7 +295,7 @@ document.addEventListener('DOMContentLoaded', () => {
       tags: ["culinary", "hospitality", "food", "tourism", "exhibition"]
     },
     {
-      id: 9,
+      id: 14,
       title: "Oil, Gas & Maritime Career Fair 2026",
       category: "Professional",
       dept: "Faculty of Engineering & Maritime Studies",
@@ -173,7 +313,7 @@ document.addEventListener('DOMContentLoaded', () => {
       tags: ["career", "oil and gas", "maritime", "jobs", "internship"]
     },
     {
-      id: 10,
+      id: 15,
       title: "Graphic Design & Digital Media Showcase",
       category: "Academic",
       dept: "Department of Graphic Design",
@@ -191,7 +331,7 @@ document.addEventListener('DOMContentLoaded', () => {
       tags: ["graphic design", "animation", "visual arts", "exhibition"]
     },
     {
-      id: 11,
+      id: 16,
       title: "Inter-Faculty Basketball Championship",
       category: "Sports",
       dept: "Sports Directorate",
@@ -209,7 +349,7 @@ document.addEventListener('DOMContentLoaded', () => {
       tags: ["basketball", "tournament", "sports", "faculty games"]
     },
     {
-      id: 12,
+      id: 17,
       title: "Applied Sciences International Conference (ASIC 2026)",
       category: "Academic",
       dept: "Faculty of Applied Sciences",
@@ -228,7 +368,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     // Past Events
     {
-      id: 13,
+      id: 18,
       title: "24th Congregation & Graduation Ceremony",
       category: "Academic",
       dept: "Office of the Vice-Chancellor",
@@ -237,7 +377,11 @@ document.addEventListener('DOMContentLoaded', () => {
       endDate: "2026-06-20T14:00",
       venue: "TTU Sports Stadium",
       desc: "Conferment of Master of Technology, BTech, and Higher National Diplomas on the graduating class of 2026 with honours and special awards.",
-      img: "https://images.unsplash.com/photo-1523050854058-8df9019b0c8f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      img: "images/ttu_matriculation_graduate.jpg",
+      gallery: [
+        "images/ttu_matriculation_graduate.jpg",
+        "images/ttu_delegation_group.jpg"
+      ],
       capacity: 5000,
       taken: 5000,
       featured: false,
@@ -247,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
       tags: ["graduation", "congregation", "alumni", "degrees"]
     },
     {
-      id: 14,
+      id: 19,
       title: "SRC Akwaaba Freshers' Welcome Concert",
       category: "Social & Cultural",
       dept: "SRC Entertainment Committee",
@@ -256,7 +400,11 @@ document.addEventListener('DOMContentLoaded', () => {
       endDate: "2026-07-12T01:00",
       venue: "University Quadrangle",
       desc: "Unforgettable musical bash featuring top Ghanaian hitmakers, student dance groups, and campus DJs welcoming all new students to the Oil City campus.",
-      img: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+      img: "images/ttu_choral_symphony.jpg",
+      gallery: [
+        "images/ttu_choral_symphony.jpg",
+        "images/ttu_brass_band.jpg"
+      ],
       capacity: 4000,
       taken: 4000,
       featured: false,
@@ -315,9 +463,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // ---------- 2. PERSISTENCE HELPER & APP STATE ----------
   function loadPersistedEvents() {
+    const CURRENT_VERSION = 'ttu_events_v3';
+    const storedVersion = localStorage.getItem('ttu_events_version');
     const raw = localStorage.getItem('ttu_events');
-    if (!raw) {
+
+    if (!raw || storedVersion !== CURRENT_VERSION) {
       localStorage.setItem('ttu_events', JSON.stringify(DEFAULT_EVENTS));
+      localStorage.setItem('ttu_events_version', CURRENT_VERSION);
       return [...DEFAULT_EVENTS];
     }
     try {
@@ -329,6 +481,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.warn('Corrupt ttu_events in localStorage, resetting to defaults.', e);
     }
     localStorage.setItem('ttu_events', JSON.stringify(DEFAULT_EVENTS));
+    localStorage.setItem('ttu_events_version', CURRENT_VERSION);
     return [...DEFAULT_EVENTS];
   }
 
@@ -420,6 +573,8 @@ document.addEventListener('DOMContentLoaded', () => {
     modalCapacityBar: document.getElementById('modalCapacityBar'),
     modalCapacityText: document.getElementById('modalCapacityText'),
     modalDesc: document.getElementById('modalDesc'),
+    modalGalleryWrap: document.getElementById('modalGalleryWrap'),
+    modalGalleryStrip: document.getElementById('modalGalleryStrip'),
     modalRegisterBtn: document.getElementById('modalRegisterBtn'),
     modalBookmarkBtn: document.getElementById('modalBookmarkBtn'),
     modalBookmarkText: document.getElementById('modalBookmarkText'),
@@ -1161,6 +1316,29 @@ document.addEventListener('DOMContentLoaded', () => {
     if (DOM.modalCapacityBar) DOM.modalCapacityBar.style.width = `${capacityPercent}%`;
     if (DOM.modalCapacityText) {
       DOM.modalCapacityText.textContent = `${taken.toLocaleString()} / ${capacity.toLocaleString()} Seats Reserved (${capacityPercent}%)`;
+    }
+
+    // Photo Gallery Strip
+    if (DOM.modalGalleryWrap && DOM.modalGalleryStrip) {
+      const gallery = (event.gallery && event.gallery.length > 0) ? event.gallery : [event.img];
+      if (gallery.length > 1) {
+        DOM.modalGalleryStrip.innerHTML = '';
+        gallery.forEach((imgUrl, idx) => {
+          const thumb = document.createElement('div');
+          thumb.className = `modal-gallery-thumb ${idx === 0 ? 'active' : ''}`;
+          thumb.setAttribute('title', `View photo ${idx + 1}`);
+          thumb.innerHTML = `<img src="${imgUrl}" alt="${escapeHtml(event.title)} Photo ${idx + 1}" loading="lazy">`;
+          thumb.onclick = () => {
+            if (DOM.modalPoster) DOM.modalPoster.style.backgroundImage = `url('${imgUrl}')`;
+            DOM.modalGalleryStrip.querySelectorAll('.modal-gallery-thumb').forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+          };
+          DOM.modalGalleryStrip.appendChild(thumb);
+        });
+        DOM.modalGalleryWrap.style.display = 'block';
+      } else {
+        DOM.modalGalleryWrap.style.display = 'none';
+      }
     }
 
     if (DOM.modalRegisterBtn) {

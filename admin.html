@@ -598,7 +598,8 @@
             <!-- RESTORE BACKUP -->
             <div class="settings-card">
               <h4>📥 Restore from Backup</h4>
-              <p>Upload a previously exported JSON backup file to restore events, registrations, and inquiry history.</p>
+              <p>Upload a previously exported JSON backup file to restore events, registrations, and inquiry history.
+              </p>
               <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                 <input type="file" id="importJsonInput" accept=".json" style="display: none;">
                 <button class="admin-btn admin-btn-outline" id="btnTriggerImport">Select JSON File</button>
@@ -734,32 +735,32 @@
 
           <div class="form-group-admin">
             <label for="fEventImg">Poster / Cover Image URL *</label>
-              <div class="url-input-action-group">
-                <input type="url" id="fEventImg" placeholder="https://images.unsplash.com/..." required>
-                <button type="button" class="admin-btn admin-btn-outline" id="btnUploadByUrl">
-                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                    <polyline points="17 8 12 3 7 8"></polyline>
-                   <line x1="12" y1="3" x2="12" y2="15"></line>
-                  </svg>
-                  <span>Upload</span>
-                </button>
-              </div>
+            <div class="url-input-action-group">
+              <input type="url" id="fEventImg" placeholder="https://images.unsplash.com/..." required>
+              <button type="button" class="admin-btn admin-btn-outline" id="btnUploadByUrl">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                <span>Upload</span>
+              </button>
+            </div>
 
-  <div class="image-preset-picker">
-    <span style="font-size: 0.75rem; color: var(--admin-text-muted); align-self: center;">Presets:</span>
-    <button type="button" class="preset-chip"
-      data-url="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">🎓 Graduation</button>
-    <button type="button" class="preset-chip"
-      data-url="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">⚡ Tech &amp; Hack</button>
-    <button type="button" class="preset-chip"
-      data-url="https://images.unsplash.com/photo-1579952363873-27f3bade9f55?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">⚽ Sports</button>
-    <button type="button" class="preset-chip"
-      data-url="https://images.unsplash.com/photo-1519389950473-47ba0277781c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">🎭 Culture &amp; Gala</button>
-    <button type="button" class="preset-chip"
-      data-url="https://images.unsplash.com/photo-1475721027785-f74eccf877e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80">🔬 Colloquium</button>
-  </div>
-</div>
+            <div class="image-preset-picker">
+              <span style="font-size: 0.75rem; color: var(--admin-text-muted); align-self: center;">TTU Presets:</span>
+              <button type="button" class="preset-chip" data-url="images/ttu_delegation_group.jpg">🏛️ Summit Delegation</button>
+              <button type="button" class="preset-chip" data-url="images/ttu_equipment_donation.jpg">📦 Logistics &amp; Infra</button>
+              <button type="button" class="preset-chip" data-url="images/ttu_nacoc_dialogue.jpg">🤝 Security Dialogue</button>
+              <button type="button" class="preset-chip" data-url="images/ttu_leadership_address.jpg">🎤 Faculty Keynote</button>
+              <button type="button" class="preset-chip" data-url="images/ttu_admin_meeting.jpg">👩‍💼 Admin &amp; WITED</button>
+              <button type="button" class="preset-chip" data-url="images/ttu_matriculation_graduate.jpg">🎓 Matriculation &amp; Grad</button>
+              <button type="button" class="preset-chip" data-url="images/ttu_cultural_fashion_gala.jpg">💃 Cultural Runway Gala</button>
+              <button type="button" class="preset-chip" data-url="images/ttu_choral_symphony.jpg">🎶 Choral &amp; Music</button>
+              <button type="button" class="preset-chip" data-url="images/ttu_football_finals.jpg">⚽ Football Finals</button>
+              <button type="button" class="preset-chip" data-url="images/ttu_brass_band.jpg">🎺 Brass Band &amp; Track</button>
+            </div>
+          </div>
 
           <div class="form-group-admin">
             <label for="fEventTags">Tags (Comma-separated)</label>
@@ -885,7 +886,8 @@
 
         <div
           style="background: var(--admin-surface-alt); padding: 16px; border-radius: var(--radius-s); margin-bottom: 20px;">
-          <div style="font-size: 0.75rem; color: var(--admin-text-muted); text-transform: uppercase; margin-bottom: 6px;">
+          <div
+            style="font-size: 0.75rem; color: var(--admin-text-muted); text-transform: uppercase; margin-bottom: 6px;">
             Message Content</div>
           <p id="inqMessageText" style="font-size: 0.9rem; line-height: 1.6; white-space: pre-wrap;">Message details...
           </p>

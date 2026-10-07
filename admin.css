@@ -86,7 +86,9 @@
 }
 
 /* Reset & Layout */
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
@@ -466,8 +468,15 @@ body {
 }
 
 @keyframes tabFadeIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Section Header Bar */
@@ -616,11 +625,30 @@ body {
   flex-shrink: 0;
 }
 
-.icon-gold { background: var(--gold-soft); color: #B38600; }
-.icon-navy { background: rgba(15, 39, 74, 0.1); color: var(--admin-navy); }
-.icon-green { background: var(--success-bg); color: var(--success); }
-.icon-purple { background: var(--purple-bg); color: var(--purple); }
-.icon-red { background: var(--danger-bg); color: var(--danger); }
+.icon-gold {
+  background: var(--gold-soft);
+  color: #B38600;
+}
+
+.icon-navy {
+  background: rgba(15, 39, 74, 0.1);
+  color: var(--admin-navy);
+}
+
+.icon-green {
+  background: var(--success-bg);
+  color: var(--success);
+}
+
+.icon-purple {
+  background: var(--purple-bg);
+  color: var(--purple);
+}
+
+.icon-red {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
 
 [data-theme="dark"] .icon-navy {
   background: rgba(30, 78, 140, 0.25);
